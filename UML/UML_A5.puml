@@ -1,0 +1,55 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class App{
+    start()
+    main()
+}
+
+
+class MainWindowController{
+    ObservableList: Item
+
+
+    helpButtonClicked()
+    searchItemButtonClicked()
+    addItemButtonClicked()
+    editItemButtonClicked()
+    removeItemButtonClicked()
+    sortByValueButtonClicked()
+    sortBySerialNumberButtonClicked()
+    sortByNameButtonClicked()
+    saveAsHtmlButtonClicked()
+    saveAsTxtButtonClicked()
+    saveAsJsonButtonClicked()
+    loadFileButtonClicked()
+
+    addItem(String, String, Double)
+    removeItem(Item)
+    editItem(Item)
+    sortByValue()
+    sortBySerialNumber()
+    sortByName()
+    saveAsHtml(Filename)
+    saveAsTxt(Filename)
+    saveAsJson(Filename)
+    loadFile(Filename)
+}
+
+
+class Item{
+    - String: name
+    - String: serial number
+    - Double: value
+
+    + Constructors()
+    + Getters()
+    + Setters()
+}
+
+openjfx.org.Application <|-- App
+App -- MainWindowController
+MainWindowController *-- Item
+
+
+@enduml

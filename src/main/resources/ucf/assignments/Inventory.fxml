@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="450.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.InventoryController">
+    <children>
+        <TableView fx:id="TableDisplay" layoutX="14.0" layoutY="32.0" prefHeight="314.0" prefWidth="630.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
+            <columns>
+                <TableColumn fx:id="TableValue" prefWidth="92.00002765655518" text="Value" />
+                <TableColumn fx:id="TableSerialNumber" prefWidth="99.4285659790039" text="Serial Number" />
+                <TableColumn fx:id="TableName" prefWidth="438.8571472167969" text="Product" />
+            </columns>
+        </TableView>
+        <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="650.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Load" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Sort">
+                    <items>
+                        <Menu mnemonicParsing="false" text="Sort by">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#sortByValueButtonClicked" text="Value" />
+                                <MenuItem mnemonicParsing="false" onAction="#sortBySerialNumberButtonClicked" text="Serial Number" />
+                                <MenuItem mnemonicParsing="false" onAction="#sortByNameButtonClicked" text="Product Name" />
+                            </items>
+                        </Menu>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#helpButtonClicked" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <TextField fx:id="SearchField" layoutX="10.0" layoutY="26.0" prefHeight="25.0" prefWidth="484.0" promptText="search for product via serial number or product name" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="30.0" />
+        <Button layoutX="509.0" layoutY="30.0" mnemonicParsing="false" onAction="#searchItemButtonClicked" text="Search" />
+        <Button layoutX="504.0" layoutY="384.0" mnemonicParsing="false" onAction="#addItemButtonClicked" prefHeight="25.0" prefWidth="136.0" text="Add Item" AnchorPane.rightAnchor="10.285714285714334" />
+        <Button layoutX="504.0" layoutY="414.0" mnemonicParsing="false" onAction="#removeItemButtonClicked" prefHeight="25.0" prefWidth="136.0" text="Remove selected Item" AnchorPane.rightAnchor="10.285714285714334" />
+        <Button layoutX="10.0" layoutY="399.0" mnemonicParsing="false" onAction="#editNameButtonClicked" prefHeight="25.0" prefWidth="160.0" text="Edit selected name" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="480.28571428571433" />
+      <Button layoutX="175.0" layoutY="399.0" mnemonicParsing="false" onAction="#editSerialNumberButtonClicked" prefHeight="25.0" prefWidth="160.0" text="Edit selected serial number" AnchorPane.bottomAnchor="10.000000000000025" />
+      <Button layoutX="338.0" layoutY="411.0" mnemonicParsing="false" onAction="#editValueButtonClicked" prefHeight="25.0" prefWidth="160.0" text="Edit selected value" AnchorPane.bottomAnchor="10.0" />
+      <TextField fx:id="NameField" layoutX="10.0" layoutY="364.0" prefHeight="25.0" prefWidth="160.0" promptText="product name" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" />
+      <TextField fx:id="SerialNumField" layoutX="178.0" layoutY="364.0" prefWidth="160.0" promptText="product serial number " AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="175.0" />
+      <TextField fx:id="ValueField" layoutX="345.0" layoutY="364.0" prefWidth="160.0" promptText="product value" AnchorPane.bottomAnchor="40.00000000000003" AnchorPane.leftAnchor="340.0" />
+    </children>
+</AnchorPane>
