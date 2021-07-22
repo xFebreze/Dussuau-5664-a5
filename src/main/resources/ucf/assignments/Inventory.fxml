@@ -13,7 +13,7 @@
     <children>
         <TableView fx:id="TableDisplay" layoutX="14.0" layoutY="32.0" prefHeight="314.0" prefWidth="630.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
             <columns>
-                <TableColumn fx:id="TableValue" prefWidth="92.00002765655518" text="Value" />
+                <TableColumn fx:id="TableValue" prefWidth="92.00002765655518" text="Value ($)" />
                 <TableColumn fx:id="TableSerialNumber" prefWidth="99.4285659790039" text="Serial Number" />
                 <TableColumn fx:id="TableName" prefWidth="438.8571472167969" text="Product" />
             </columns>
