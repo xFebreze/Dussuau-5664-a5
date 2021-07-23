@@ -53,6 +53,6 @@
       <Button layoutX="338.0" layoutY="411.0" mnemonicParsing="false" onAction="#editValueButtonClicked" prefHeight="25.0" prefWidth="160.0" text="Edit selected value" AnchorPane.bottomAnchor="10.0" />
       <TextField fx:id="NameField" layoutX="10.0" layoutY="364.0" prefHeight="25.0" prefWidth="160.0" promptText="product name" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="10.0" />
       <TextField fx:id="SerialNumField" layoutX="178.0" layoutY="364.0" prefWidth="160.0" promptText="product serial number " AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="175.0" />
-      <TextField fx:id="ValueField" layoutX="345.0" layoutY="364.0" prefWidth="160.0" promptText="product value" AnchorPane.bottomAnchor="40.00000000000003" AnchorPane.leftAnchor="340.0" />
+      <TextField fx:id="ValueField" layoutX="345.0" layoutY="364.0" prefWidth="160.0" promptText="product value (in usd)" AnchorPane.bottomAnchor="40.00000000000003" AnchorPane.leftAnchor="340.0" />
     </children>
 </AnchorPane>

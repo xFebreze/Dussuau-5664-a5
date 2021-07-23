@@ -30,6 +30,7 @@ public class InventoryController implements Initializable {
     @FXML TableColumn<Item, String> TableName;
     @FXML TableColumn<Item, String> TableSerialNumber;
     @FXML TableColumn<Item, String> TableValue;
+    int sort = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -136,6 +137,7 @@ public class InventoryController implements Initializable {
 
     @FXML
     public void removeItemButtonClicked(ActionEvent actionEvent){
+
         //grab the selected item
         //call remove item given the selected item
 
@@ -147,16 +149,31 @@ public class InventoryController implements Initializable {
     @FXML
     public void sortByValueButtonClicked(ActionEvent actionEvent){
 
+        //Sorts the Table view by Value
+        //Makes global variable sort 1 so everytime we update table view it stays in correct sort
+
+        TableDisplay.getSortOrder().add(TableValue);
+        sort = 1;
     }
 
     @FXML
     public void sortBySerialNumberButtonClicked(ActionEvent actionEvent){
 
+        //Sorts the Table view by Serial Number
+        //Makes global variable sort 2 so everytime we update table view it stays in correct sort
+
+        TableDisplay.getSortOrder().add(TableSerialNumber);
+        sort = 2;
     }
 
     @FXML
     public void sortByNameButtonClicked(ActionEvent actionEvent){
 
+        //Sorts the Table view by Name
+        //Makes global variable sort 3 so everytime we update table view it stays in correct sort
+
+        TableDisplay.getSortOrder().add(TableName);
+        sort = 3;
     }
 
     @FXML
@@ -194,7 +211,6 @@ public class InventoryController implements Initializable {
 
         int tempIndex = InventoryList.indexOf(tempItem);
         InventoryList.set(tempIndex, new Item (tempName, tempItem.getSerialNum(), tempItem.getValue()));
-        //displayItems();
     }
 
     public void editSerialNum(String tempSN, Item tempItem){
@@ -205,7 +221,6 @@ public class InventoryController implements Initializable {
 
         int tempIndex = InventoryList.indexOf(tempItem);
         InventoryList.set(tempIndex, new Item (tempItem.getName(), tempSN, tempItem.getValue()));
-        //displayItems();
     }
 
     public void editValue(double tempValue, Item tempItem){
@@ -216,7 +231,6 @@ public class InventoryController implements Initializable {
 
         int tempIndex = InventoryList.indexOf(tempItem);
         InventoryList.set(tempIndex, new Item (tempItem.getName(), tempItem.getSerialNum(), tempValue));
-        //displayItems();
     }
 
     public void removeItem(Item tempItem){
@@ -225,27 +239,39 @@ public class InventoryController implements Initializable {
         //update display
 
         InventoryList.remove(tempItem);
-        //displayItems();
     }
 
     public void displayItems(){
 
         //clears the table display
         //loads list to table display
+        //checks sort to make sure table view stays sorted correctly after edits to table view
 
         if(this.TableDisplay != null){
             TableDisplay.getItems().clear();
             for(int i = 0; i < InventoryList.size(); i++){
                 TableDisplay.getItems().add(InventoryList.get(i));
             }
+            if(sort == 1){
+                TableDisplay.getSortOrder().add(TableValue);
+            }
+            if(sort == 2){
+                TableDisplay.getSortOrder().add(TableSerialNumber);
+            }
+            if(sort == 3){
+                TableDisplay.getSortOrder().add(TableName);
+            }
         }
 
     }
 
     public boolean checkValidName(String name){
+
+        //Check to see if the Name string is valid
+
         if(name.length() < 2 || name.length() > 256){
             NameField.clear();
-            alerts("Warning","Make sure product name is between 2-256 characters long.");
+            alerts("Name Error","Make sure product name is between 2-256 characters long.");
             return true;
         }
 
@@ -253,9 +279,13 @@ public class InventoryController implements Initializable {
     }
 
     public boolean checkValidSN(String SN){
+
+        //Check to see if the Serial Number String only contains numbers and letters
+
+
         if(SN.length() != 10 || (!SN.matches("^[a-zA-Z0-9]*$"))){
             SerialNumField.clear();
-            alerts("Warning","Make sure that entered serial number is 10 characters long\n" +
+            alerts("Serial Number Error","Make sure that entered serial number is 10 characters long\n" +
                     "and only contains alphanumerical values");
             return true;
         }
@@ -264,28 +294,33 @@ public class InventoryController implements Initializable {
     }
 
     public boolean checkValidValue(String str){
+
+        //Checks to see if the Value str has numbers prior to the decimal
+        //Checks to see if the Value str has a decimal in the correct spot
+        //Checks to see if the Value str has numbers after the decimal
+
         char[] valueStrArr= str.toCharArray();
         int valueStrDec = str.length()-3;
 
         for(int i = 0; i < valueStrDec; i++){
             if(!Character.isDigit(valueStrArr[i])){
                 ValueField.clear();
-                alerts("Warning","Make sure the value is in format XXX.XX where X's\n" +
-                        "are numbers.111");
+                alerts("Value Error","Value should be in form of US dollars\n" +
+                        "Ex:199.99");
                 return true;
             }
         }
         if(valueStrArr[valueStrDec] != '.'){
             ValueField.clear();
-            alerts("Warning","Make sure the value is in format XXX.XX where X's\n" +
-                    "are numbers.222");
+            alerts("Value Error","Value should be in form of US dollars\n" +
+                    "Ex:199.99");
             return true;
         }
         for(int i = valueStrDec+1; i < str.length(); i++){
             if(!Character.isDigit(valueStrArr[i])){
                 ValueField.clear();
-                alerts("Warning","Make sure the value is in format XXX.XX where X's\n" +
-                        "are numbers.333");
+                alerts("Value Error","Value should be in form of US dollars\n" +
+                        "Ex:199.99");
                 return true;
             }
         }
