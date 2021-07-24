@@ -11,9 +11,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -47,10 +50,33 @@ public class InventoryController implements Initializable {
     @FXML
     public void searchItemButtonClicked(ActionEvent actionEvent){
 
+        //When the button is clicked it takes the string from the search field
+        //With the string from the search field we compare it to all names and serial numbers of items
+        //If there is a match we display the matched item on the table view
+
+        String str = SearchField.getText();
+        TableDisplay.getItems().clear();
+        for(int i = 0; i < InventoryList.size(); i++){
+            if((InventoryList.get(i).getName().toLowerCase()).contains(str.toLowerCase()) || (InventoryList.get(i).getSerialNum().toLowerCase()).contains(str.toLowerCase())){
+                TableDisplay.getItems().add(InventoryList.get(i));
+            }
+        }
+    }
+
+    @FXML
+    public void clearSearchItemsButtonClicked(ActionEvent actionEvent){
+
+        //Clears the search field
+        //Displays whole observable list
+
+        SearchField.clear();
+        displayItems();
+
     }
 
     @FXML
     public void addItemButtonClicked(ActionEvent actionEvent){
+
         //collects data from text fields
         //checks if data is valid
         //if data is valid we pass it onto our addItem function
@@ -177,18 +203,20 @@ public class InventoryController implements Initializable {
     }
 
     @FXML
-    public void saveAsHtmlButtonClicked(ActionEvent actionEvent){
+    public void saveButtonClicked(ActionEvent actionEvent){
 
-    }
+        //prompt the user a file chooser to save the inventory list
+        //use saveInventory with the saved file from file chooser
 
-    @FXML
-    public void saveAsTxtButtonClicked(ActionEvent actionEvent){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Inventory");
+        fileChooser.setInitialFileName("InventoryList");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("text files", "*.txt"),
+                new FileChooser.ExtensionFilter("html files", "*.html"),
+                new FileChooser.ExtensionFilter("json files", "*.json"));
+        File file = fileChooser.showSaveDialog(new Stage());
 
-    }
-
-    @FXML
-    public void saveAsJsonButtonClicked(ActionEvent actionEvent){
-
+        saveInventory(file);
     }
 
     @FXML
@@ -265,6 +293,26 @@ public class InventoryController implements Initializable {
 
     }
 
+    public void saveInventory(File file){
+
+        //Make an object for the file manager class
+        //Takes the file from the file chooser
+        //uses the correct method from file manager based on the file's extension
+
+        FileManager fileManager = new FileManager();
+
+        if(file.getName().substring(file.getName().length()-3,file.getName().length()).equals("txt")){
+            fileManager.saveAsTxt(file, InventoryList);
+        }
+        if(file.getName().substring(file.getName().length()-4,file.getName().length()).equals("html")){
+            fileManager.saveAsHtml(file, InventoryList);
+        }
+        if(file.getName().substring(file.getName().length()-4,file.getName().length()).equals("json")){
+            fileManager.saveAsJson(file, InventoryList);
+        }
+
+    }
+
     public boolean checkValidName(String name){
 
         //Check to see if the Name string is valid
@@ -289,12 +337,20 @@ public class InventoryController implements Initializable {
                     "and only contains alphanumerical values");
             return true;
         }
+        for(int i = 0; i < InventoryList.size(); i++){
+            if(SN.equals(InventoryList.get(i).getSerialNum())){
+                SerialNumField.clear();
+                alerts("Serial Number Error","Make sure that all serial numbers a unique from on another");
+                return true;
+            }
+        }
 
         return false;
     }
 
     public boolean checkValidValue(String str){
 
+        //Checks to see if the Value str is above the min size
         //Checks to see if the Value str has numbers prior to the decimal
         //Checks to see if the Value str has a decimal in the correct spot
         //Checks to see if the Value str has numbers after the decimal
@@ -302,25 +358,31 @@ public class InventoryController implements Initializable {
         char[] valueStrArr= str.toCharArray();
         int valueStrDec = str.length()-3;
 
+        if(str.length() < 4){
+            ValueField.clear();
+            alerts("Value Error","Value should be in form of US dollars\n" +
+                    "Ex:199.99 or 2.00");
+            return true;
+        }
         for(int i = 0; i < valueStrDec; i++){
             if(!Character.isDigit(valueStrArr[i])){
                 ValueField.clear();
                 alerts("Value Error","Value should be in form of US dollars\n" +
-                        "Ex:199.99");
+                        "Ex:199.99 or 2.00");
                 return true;
             }
         }
         if(valueStrArr[valueStrDec] != '.'){
             ValueField.clear();
             alerts("Value Error","Value should be in form of US dollars\n" +
-                    "Ex:199.99");
+                    "Ex:199.99 or 2.00");
             return true;
         }
         for(int i = valueStrDec+1; i < str.length(); i++){
             if(!Character.isDigit(valueStrArr[i])){
                 ValueField.clear();
                 alerts("Value Error","Value should be in form of US dollars\n" +
-                        "Ex:199.99");
+                        "Ex:199.99 or 2.00");
                 return true;
             }
         }
