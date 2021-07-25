@@ -1,3 +1,7 @@
+/*
+ *  UCF COP3330 Summer 2021 Assignment 5 Solution
+ *  Copyright 2021 Alek Dussuau
+ */
 package ucf.assignments;
 
 import com.sun.jdi.Value;
@@ -44,7 +48,14 @@ public class InventoryController implements Initializable {
 
     @FXML
     public void helpButtonClicked(ActionEvent actionEvent){
-
+        alerts("Help","Add Item: To add an item to the Inventory you must fill out the text fields for product name, serial number,\nand product value then hit the \"Add Item\" button.\n\n" +
+                "Remove Item: To remove an item you must first select the item you wish to remove then hit the \"Remove\nItem\" button.\n\n" +
+                "Edit buttons: To use any of the edit items you must first select the Item you wish to edit then type in the\ntext field of the variable you wish to edit followed by hitting the \"Edit selected ___\" button.\n\n" +
+                "Search: To search for an Item in the inventory first type the name or serial number you are searching for\nin the search field it does not have to be an exact string and can be a substring of what you are searching\nfor. After you have typed in the search field hit the \"Search\" button.\n\n" +
+                "Clear Search: When you no longer want to see your search results simply hit the \"Clear Search\" button.\n\n" +
+                "Sort: To sort the inventory you can either click on the header of what you would like to sort by or you may\nuse the sort buttons found on the menu bar on the top of the window.\n\n" +
+                "Save: To save the current inventory list you can go to the file menu on the top left of the screen and click\nsave where you will be given a file chooser to save the file as a .txt .html or .json.\n\n" +
+                "Load: To load an inventory list you can go to the file menu on the top left of the screen and click load\nwhere you will be given a file chooser to pick a file (.txt .html or .json) to upload to the application.");
     }
 
     @FXML
@@ -99,7 +110,7 @@ public class InventoryController implements Initializable {
 
         double value = Double.parseDouble(valueStr);
 
-        InventoryList.add(addItem(name,SN,value));
+        addItem(name,SN,value);
         displayItems();
         NameField.clear();
         SerialNumField.clear();
@@ -221,14 +232,24 @@ public class InventoryController implements Initializable {
 
     @FXML
     public void LoadButtonClicked(ActionEvent actionEvent){
+        //prompt a file chooser to save a file
+        //use loadList with the saved file from file chooser
 
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open txt file");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("text files", "*.txt"),
+                new FileChooser.ExtensionFilter("html files", "*.html"),
+                new FileChooser.ExtensionFilter("json files", "*.json"));
+        File file = fileChooser.showOpenDialog(new Stage());
+        loadInventory(file);
     }
 
-    public Item addItem(String name, String serialNum, Double value){
+    public void addItem(String name, String serialNum, Double value){
 
         //takes inputs from text field and turns them into an item
+        //add item to InventoryList
 
-        return new Item(name, serialNum, value);
+        InventoryList.add(new Item(name, serialNum, value));
     }
 
     public void editName(String tempName, Item tempItem){
@@ -310,6 +331,10 @@ public class InventoryController implements Initializable {
         if(file.getName().substring(file.getName().length()-4,file.getName().length()).equals("json")){
             fileManager.saveAsJson(file, InventoryList);
         }
+
+    }
+
+    public void loadInventory(File file){
 
     }
 
