@@ -335,7 +335,21 @@ public class InventoryController implements Initializable {
     }
 
     public void loadInventory(File file){
+        FileManager fileManager = new FileManager();
 
+        if(file.getName().substring(file.getName().length()-3,file.getName().length()).equals("txt")){
+            InventoryList.clear();
+            InventoryList = fileManager.loadTxt(file);
+            displayItems();
+        }
+        if(file.getName().substring(file.getName().length()-4,file.getName().length()).equals("html")){
+            InventoryList.clear();
+            InventoryList = fileManager.loadHtml(file);
+            displayItems();
+        }
+        if(file.getName().substring(file.getName().length()-4,file.getName().length()).equals("json")){
+            fileManager.loadJson(file, InventoryList);
+        }
     }
 
     public boolean checkValidName(String name){

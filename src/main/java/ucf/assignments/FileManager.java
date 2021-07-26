@@ -4,12 +4,14 @@
  */
 package ucf.assignments;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import java.io.*;
+import java.util.Iterator;
+import java.util.Scanner;
 
 public class FileManager {
 
@@ -35,8 +37,27 @@ public class FileManager {
         }
     }
 
+    public ObservableList<Item>  loadTxt(File file){
+        ObservableList<Item> ret = FXCollections.observableArrayList();
+
+        Scanner reader = null;
+
+        try{
+            reader = new Scanner(file);
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        while(reader.hasNextLine()){
+            String fileLine = reader.nextLine();
+            String[] temp = fileLine.split("\t",3);
+            ret.add(new Item(temp[0],temp[1],Double.parseDouble(temp[2])));
+        }
+        reader.close();
+        return ret;
+    }
+
     public void saveAsHtml(File file, ObservableList<Item> InventoryList){
-        System.out.println("TEST");
 
         BufferedWriter bufferedWrite = null;
         String html = "<html>\n<body>\n<table>\n" +
@@ -57,7 +78,41 @@ public class FileManager {
         }
     }
 
+    public ObservableList<Item> loadHtml(File file){
+        ObservableList<Item> ret = FXCollections.observableArrayList();
+
+
+        StringBuilder contentBuilder = new StringBuilder();
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(file));
+            String str;
+            while ((str = in.readLine()) != null) {
+                contentBuilder.append(str);
+            }
+            in.close();
+        } catch (IOException e) {
+        }
+        String content = contentBuilder.toString();
+
+        Document htmlDoc = Jsoup.parse(content);
+        Element table = htmlDoc.selectFirst("table");
+
+        Iterator<Element> row = table.select("tr").iterator();
+
+        row.next();
+
+        while(row.hasNext()){
+            Iterator<Element> item = ((Element)row.next()).select("td").iterator();
+            ret.add(new Item(item.next().text(),item.next().text(),Double.parseDouble(item.next().text())));
+        }
+        return ret;
+    }
+
     public void saveAsJson(File file, ObservableList<Item> InventoryList){
+
+    }
+
+    public void loadJson(File file, ObservableList<Item> InventoryList){
 
     }
 }

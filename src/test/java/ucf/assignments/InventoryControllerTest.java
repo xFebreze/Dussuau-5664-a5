@@ -6,6 +6,8 @@ package ucf.assignments;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InventoryControllerTest {
@@ -81,5 +83,73 @@ public class InventoryControllerTest {
         AppTest.addItem("PS4","A2001L9E2K", 499.99);
         AppTest.editValue(500.00, AppTest.InventoryList.get(0));
         assertEquals(500.00, AppTest.InventoryList.get(0).getValue());
+    }
+
+    @Test
+    public void LoadTxtTest(){
+        //Make a new object of Inventory Controller
+        //Load a text File premade in a resource folder
+        //compare the data that should've loaded to the data that actually loaded
+
+        InventoryController AppTest = new InventoryController();
+
+        AppTest.loadInventory(new File("resources/TestLoad.txt"));
+        assertEquals("VAL", AppTest.InventoryList.get(0).getName());
+        assertEquals("A2002L9E2K",AppTest.InventoryList.get(0).getSerialNum());
+        assertEquals(199.99,AppTest.InventoryList.get(0).getValue());
+    }
+
+    @Test
+    public void SaveTxtTest(){
+        //Make a new Object of Inventory Controller
+        //Add a Item to the Inventory List
+        //Save the Inventory List as txt
+        //Clear current List
+        //Load the list we saved
+        //Check if data is still there
+
+        InventoryController AppTest = new InventoryController();
+
+        AppTest.addItem("Testing","TEST12TEST",199.99);
+        AppTest.saveInventory(new File("resources/TestSave.txt"));
+        AppTest.InventoryList.clear();
+        AppTest.loadInventory(new File("resources/TestSave.txt"));
+        assertEquals("Testing", AppTest.InventoryList.get(0).getName());
+        assertEquals("TEST12TEST",AppTest.InventoryList.get(0).getSerialNum());
+        assertEquals(199.99,AppTest.InventoryList.get(0).getValue());
+    }
+
+    @Test
+    public void LoadHtmlTest(){
+        //Make a new object of Inventory Controller
+        //Load a html File premade in a resource folder
+        //compare the data that should've loaded to the data that actually loaded
+
+        InventoryController AppTest = new InventoryController();
+
+        AppTest.loadInventory(new File("resources/TestLoad.html"));
+        assertEquals("VAL", AppTest.InventoryList.get(0).getName());
+        assertEquals("A2002L9E2K",AppTest.InventoryList.get(0).getSerialNum());
+        assertEquals(199.99,AppTest.InventoryList.get(0).getValue());
+    }
+
+    @Test
+    public void SaveHtmlTest(){
+        //Make a new Object of Inventory Controller
+        //Add a Item to the Inventory List
+        //Save the Inventory List as html
+        //Clear current List
+        //Load the list we saved
+        //Check if data is still there
+
+        InventoryController AppTest = new InventoryController();
+
+        AppTest.addItem("Testing","TEST12TEST",199.99);
+        AppTest.saveInventory(new File("resources/TestSave.html"));
+        AppTest.InventoryList.clear();
+        AppTest.loadInventory(new File("resources/TestSave.html"));
+        assertEquals("Testing", AppTest.InventoryList.get(0).getName());
+        assertEquals("TEST12TEST",AppTest.InventoryList.get(0).getSerialNum());
+        assertEquals(199.99,AppTest.InventoryList.get(0).getValue());
     }
 }

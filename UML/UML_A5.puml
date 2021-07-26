@@ -14,26 +14,41 @@ class MainWindowController{
     helpButtonClicked()
     searchItemButtonClicked()
     addItemButtonClicked()
-    editItemButtonClicked()
+    editNameButtonClicked()
+    editSerialNumButtonClicked()
+    editValueButtonClicked()
     removeItemButtonClicked()
     sortByValueButtonClicked()
     sortBySerialNumberButtonClicked()
     sortByNameButtonClicked()
-    saveAsHtmlButtonClicked()
-    saveAsTxtButtonClicked()
-    saveAsJsonButtonClicked()
+    SaveFileButtonClicked()
     loadFileButtonClicked()
 
     addItem(String, String, Double)
     removeItem(Item)
-    editItem(Item)
+    editName(Item, str)
+    editSerialNum(Item, str)
+    editValue(Item, str)
     sortByValue()
     sortBySerialNumber()
     sortByName()
-    saveAsHtml(Filename)
-    saveAsTxt(Filename)
-    saveAsJson(Filename)
-    loadFile(Filename)
+    saveInventory(File)
+    loadInventory(File)
+    displayItems()
+    checkValidName(str)
+    checkValidSerialNum(str)
+    checkValidValue(str)
+
+    alerts()
+}
+
+class FileManager{
+    SaveAsTxt()
+    LoadTxt()
+    SaveAsHtml()
+    LoadHtml()
+    SaveAsJson()
+    LoadAsJson()
 }
 
 
@@ -49,6 +64,7 @@ class Item{
 
 openjfx.org.Application <|-- App
 App -- MainWindowController
+MainWindowController *-- FileManager
 MainWindowController *-- Item
 
 
